@@ -1,0 +1,381 @@
+<div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a
+
+        href="https://github.com/disqus/grunt-mocha"
+
+    >grunt-mocha (v1.0.4)</a>
+</h1>
+<h4>Grunt task for running client-side Mocha specs in PhantomJS</h4>
+<div class="apidocSectionDiv"><a
+    href="#apidoc.tableOfContents"
+    id="apidoc.tableOfContents"
+><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.grunt-mocha">module grunt-mocha</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.grunt-mocha.grunt-mocha">
+            function <span class="apidocSignatureSpan"></span>grunt-mocha
+            <span class="apidocSignatureSpan">(grunt)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">grunt-mocha.</span>mocha_helpers</span>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.grunt-mocha.mocha_helpers">module grunt-mocha.mocha_helpers</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.grunt-mocha.mocha_helpers.formatMs">
+            function <span class="apidocSignatureSpan">grunt-mocha.mocha_helpers.</span>formatMs
+            <span class="apidocSignatureSpan">(ms)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.grunt-mocha.mocha_helpers.reduceStats">
+            function <span class="apidocSignatureSpan">grunt-mocha.mocha_helpers.</span>reduceStats
+            <span class="apidocSignatureSpan">(stats)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.grunt-mocha" id="apidoc.module.grunt-mocha">module grunt-mocha</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.grunt-mocha.grunt-mocha" id="apidoc.element.grunt-mocha.grunt-mocha">
+        function <span class="apidocSignatureSpan"></span>grunt-mocha
+        <span class="apidocSignatureSpan">(grunt)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">grunt-mocha = function (grunt) {
+
+  var port = 8981;
+
+  grunt.initConfig({
+    jshint: {
+      all: [
+        &#x27;Gruntfile.js&#x27;,
+        &#x27;tasks/**/*.js&#x27;, ],
+      options: {
+        jshintrc: &#x27;.jshintrc&#x27;
+      }
+    },
+    watch: {
+      // If you want to watch files and run tests automatically on change
+      test: {
+        files: [
+          &#x27;example/js/**/*.js&#x27;,
+          &#x27;example/test/spec/**/*.js&#x27;,
+          &#x27;phantomjs/*&#x27;,
+          &#x27;tasks/*&#x27;,
+          &#x27;Gruntfile.js&#x27;
+        ],
+        tasks: &#x27;test&#x27;
+      }
+    },
+    mocha: {
+      // runs all html files (except test2.html) in the test dir
+      // In this example, there&#x27;s only one, but you can add as many as
+      // you want. You can split them up into different groups here
+      // ex: admin: [ &#x27;test/admin.html&#x27; ]
+      all: [&#x27;example/test/**/!(test2|testBail|testPage).html&#x27;],
+
+      // Runs &#x27;test/test2.html&#x27; with specified mocha options.
+      // This variant auto-includes &#x27;bridge.js&#x27; so you do not have
+      // to include it in your HTML spec file. Instead, you must add an
+      // environment check before you run `mocha.run` in your HTML.
+      test2: {
+
+        // Test files
+        src: [&#x27;example/test/test2.html&#x27;],
+        options: {
+          // mocha options
+          mocha: {
+            ignoreLeaks: false,
+            grep: &#x27;food&#x27;
+          },
+
+          reporter: &#x27;Spec&#x27;,
+          timeout: 10000
+        }
+      },
+
+      // Runs the same as test2 but with URL&#x27;s
+      testUrls: {
+        options: {
+          // mocha options
+          mocha: {
+            ignoreLeaks: false,
+            grep: &#x27;food&#x27;
+          },
+
+          reporter: &#x27;Nyan&#x27;,
+
+          // URLs passed through as options
+          urls: [&#x27;http://localhost:&#x27; + port + &#x27;/example/test/test2.html&#x27;],
+        }
+      },
+
+      // Test using a custom reporter
+      testReporter: {
+        src: [&#x27;example/test/test.html&#x27;, &#x27;example/test/test2.html&#x27;],
+        options: {
+          mocha: {
+            ignoreLeaks: false,
+            grep: &#x27;food&#x27;
+          },
+          reporter: &#x27;./example/test/reporter/simple&#x27;,
+        }
+      },
+
+      // Test log option
+      testLog: {
+        src: [&#x27;example/test/test.html&#x27;],
+        options: {
+          mocha: {
+            ignoreLeaks: false,
+            grep: &#x27;food&#x27;
+          },
+          log: true
+        }
+      },
+
+      testDest1: {
+        // Test files
+        src: [&#x27;example/test/test2.html&#x27;],
+        dest: &#x27;example/test/results/spec.out&#x27;,
+        options: {
+          reporter: &#x27;Spec&#x27;,
+        }
+      },
+
+      // Same as above, but with URLS + Xunit
+      testDest2: {
+        options: {
+          reporter: &#x27;XUnit&#x27;,
+
+          // URLs passed through as options
+          urls: [&#x27;http://localhost:&#x27; + (port + 1) + &#x27;/example/test/test2.html&#x27;],
+        },
+        dest: &#x27;example/test/results/xunit.out&#x27;
+      },
+
+      // Test a failing test with bail: true
+      testBail: {
+        src: [&#x27;example/test/testBail.html&#x27;],
+        // Bail option
+        options: {
+          bail: true
+        }
+      },
+
+      // This test should never run
+      neverTest: {
+        src: [&#x27;example/test/test.html&#x27;],
+      },
+
+      // Test page options
+      testPage: {
+        src: [&#x27;example/test/testPage.html&#x27;],
+        options: {
+          page: {
+            settings: {
+              userAgent: &#x27;grunt-mocha-agent&#x27;
+            }
+          }
+        }
+      }
+    },
+
+    connect: {
+      testUrls: {
+        options: {
+          port: port,
+          base: &#x27;.&#x27;
+        }
+      },
+      testDest: {
+        options: {
+          port: port + 1,
+          base: &#x27;.&#x27;
+        }
+      }
+    }
+  });
+
+  grunt.registerTask(&#x27;verifyDestResults&#x27;, function () {
+    var expected = [&#x27;spec&#x27;, &#x27;xunit&#x27;];
+
+    expected.forEach(function (reporter) {
+      var output = &#x27;example/test/results/&#x27; + reporter + &#x27;.out&#x27;;
+
+      // simply check if the file is non-empty since verifying if the output is
+      // correct based on the spec is kind of hard due to changing test running
+      // times and different ways to report this time in reporters.
+      if (!grunt.file.read(output, &#x27;utf8&#x27;))
+        grunt.fatal(&#x27;Empty reporter output: ...</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.grunt-mocha.mocha_helpers" id="apidoc.module.grunt-mocha.mocha_helpers">module grunt-mocha.mocha_helpers</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.grunt-mocha.mocha_helpers.formatMs" id="apidoc.element.grunt-mocha.mocha_helpers.formatMs">
+        function <span class="apidocSignatureSpan">grunt-mocha.mocha_helpers.</span>formatMs
+        <span class="apidocSignatureSpan">(ms)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">formatMs = function (ms) {
+  return (Math.ceil(ms * 100) / 100000).toFixed(2);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+    prev.passes    += stats.passes;
+    prev.failures  += stats.failures;
+    prev.tests     += stats.tests;
+    prev.duration  += (stats.end - stats.start);
+    return prev;
+  }, initial);
+
+  total.duration = this.<span class="apidocCodeKeywordSpan">formatMs</span>(total.duration);
+
+  return total;
+};
+
+exports.formatMs = function(ms) {
+  return (Math.ceil(ms * 100) / 100000).toFixed(2);
+};
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.grunt-mocha.mocha_helpers.reduceStats" id="apidoc.element.grunt-mocha.mocha_helpers.reduceStats">
+        function <span class="apidocSignatureSpan">grunt-mocha.mocha_helpers.</span>reduceStats
+        <span class="apidocSignatureSpan">(stats)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">reduceStats = function (stats) {
+  var initial = {
+    passes    : 0,
+    failures  : 0,
+    tests     : 0,
+    duration  : 0
+  };
+
+  // console.log(testStats);
+  var total = stats.reduce(function(prev, stats, i, list) {
+    prev.passes    += stats.passes;
+    prev.failures  += stats.failures;
+    prev.tests     += stats.tests;
+    prev.duration  += (stats.end - stats.start);
+    return prev;
+  }, initial);
+
+  total.duration = this.formatMs(total.duration);
+
+  return total;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+            // If there was a PhantomJS error, abort the series.
+            grunt.fatal(err);
+            done(false);
+          } else {
+            // If failures, show growl notice
+            if (stats.failures &#x3e; 0) {
+var reduced = helpers.<span class="apidocCodeKeywordSpan">reduceStats</span>([stats]);
+var failMsg = reduced.failures + &#x27;/&#x27; + reduced.tests +
+  &#x27; tests failed (&#x27; + reduced.duration + &#x27;s)&#x27;;
+
+// Show Growl notice, if avail
+growl(failMsg, {
+  image: asset(&#x27;growl/error.png&#x27;),
+  title: &#x27;Failure in &#x27; + grunt.task.current.target,
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
