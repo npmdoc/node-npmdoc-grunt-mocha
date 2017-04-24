@@ -58,7 +58,7 @@ npmdoc-grunt-mocha@0.0.1 /home/travis/build/npmdoc/node-npmdoc-grunt-mocha
   │ ├── async@1.5.2 
   │ ├── getobject@0.1.0 
   │ └── lodash@4.3.0 
-  ├── iconv-lite@0.4.15 
+  ├── iconv-lite@0.4.16 
   ├─┬ js-yaml@3.5.5 
   │ ├─┬ argparse@1.0.9 
   │ │ └── sprintf-js@1.0.3 
